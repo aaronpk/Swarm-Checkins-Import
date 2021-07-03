@@ -1,5 +1,11 @@
 {
     "require": {
-        "p3k/http": "^0.1.11"
+        "p3k/http": "^0.1.11",
+        "p3k/multipart": "^0.2.0"
+    },
+    "autoload": {
+      "files": [
+        "lib/lib.php"
+      ]
     }
 }
