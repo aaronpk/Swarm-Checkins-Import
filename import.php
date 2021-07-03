@@ -1,49 +1,67 @@
 <?php
 require('vendor/autoload.php');
 
+if(!file_exists(__DIR__.'/credentials.json')) {
+  echo "You need to first add your Foursquare access token in the file credentials.json. See the readme for details\n";
+  die();
+}
 
-if(file_exists('checkins.json')) {
-  $info = json_decode(file_get_contents('checkins.json'), true);
-} else {
+$credentials = json_decode(file_get_contents(__DIR__.'/credentials.json'), true);
+if(!$credentials || !isset($credentials['foursquare_access_token'])) {
+  echo "There was a problem reading the credentials file. See the readme for details\n";
+  die();
+}
 
-  $access_token = '';
+$access_token = $credentials['foursquare_access_token'];
+
+
+$continue = true;
+$offset = 0;
+$limit = 250;
+
+while($continue) {
 
   $params = [
     'v' => '20170319',
     'oauth_token' => $access_token,
-    'beforeTimestamp' => strtotime('2016-09-02T08:00:00-0700'),
-    'limit' => 250,
-    'offset' => 0,
+    'limit' => $limit,
+    'offset' => $offset,
   ];
+
+  echo "Fetching $limit checkins starting with $offset\n";
 
   $url = 'https://api.foursquare.com/v2/users/self/checkins?'.http_build_query($params);
 
   $http = new p3k\HTTP();
   $headers = [
-    'User-Agent: https://aaronparecki.com/'
+    'User-Agent: https://github.com/aaronpk/Swarm-Checkins-Import'
   ];
   $response = $http->get($url, $headers);
   $info = json_decode($response['body'], true);
 
-  #file_put_contents('checkins.json', $response['body']);
-}
+  if(isset($info['response']['checkins']['items'])) {
 
+    if(count($info['response']['checkins']['items']) == 0) {
+      echo "No more checkins found\n";
+      die();
+    }
 
-#print_r($info);
+    echo "Found ".count($info['response']['checkins']['items'])." checkins in this batch\n";
 
+    foreach($info['response']['checkins']['items'] as $item) {
 
+      process_checkin($item);
 
-if(isset($info['response']['checkins']['items'])) {
+    }
 
-  foreach($info['response']['checkins']['items'] as $item) {
-
-    process_checkin($item);
-
+  } else {
+    echo "Error fetching checkins\n";
+    $continue = false;
   }
 
-} else {
-  echo "Error fetching checkins\n";
+  $offset += $limit;
 }
+
 
 
 function process_checkin($item) {
