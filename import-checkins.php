@@ -1,17 +1,7 @@
 <?php
-require('vendor/autoload.php');
+require(__DIR__.'/vendor/autoload.php');
 
-if(!file_exists(__DIR__.'/credentials.json')) {
-  echo "You need to first add your Foursquare access token in the file credentials.json. See the readme for details\n";
-  die();
-}
-
-$credentials = json_decode(file_get_contents(__DIR__.'/credentials.json'), true);
-if(!$credentials || !isset($credentials['foursquare_access_token'])) {
-  echo "There was a problem reading the credentials file. See the readme for details\n";
-  die();
-}
-
+$credentials = load_credentials();
 $access_token = $credentials['foursquare_access_token'];
 
 

@@ -1,15 +1,12 @@
 <?php
+chdir(__DIR__);
 require('vendor/autoload.php');
 
 $checkins = glob('checkins/*/*/*/*.json');
 
 foreach($checkins as $filename) {
 
-  // if($filename != 'checkins/2016/04/04/095557.json')
-  //   continue;
-
   $checkin = json_decode(file_get_contents($filename), true);
-  #print_r($checkin);
 
   if(isset($checkin['photos']['items'])) {
     foreach($checkin['photos']['items'] as $photo) {
@@ -28,9 +25,8 @@ function process_photo($filename, $checkin, $photo) {
   $photo_filename = $folder . '/' . $photo['id'] . '.jpg';
 
   echo $folder."\n";
-  echo $photo['suffix']."\n";
 
-  $url = $photo['prefix'] . $photo['width'].'x'.$photo['height'] . $photo['suffix'];
+  $url = $photo['prefix'] . 'original' . $photo['suffix'];
   echo $url."\n";
 
 
@@ -42,5 +38,5 @@ function process_photo($filename, $checkin, $photo) {
   curl_exec($ch);
   curl_close($ch);
 
-  echo "Saved to $photo_filename\n";
+  echo "Saved to $photo_filename\n\n";
 }

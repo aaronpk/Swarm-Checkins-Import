@@ -41,8 +41,20 @@ If you don't want OwnYourSwarm to automatically publish future checkins to your 
 
 ### Import
 
+First, run the init script which will check your configuration and save some initial data:
 
-Run the initial import script which will create JSON files for each of your Swarm checkins in the `checkins` folder.
+```
+php init.php
+```
+
+You should see the following output if everything worked:
+
+```
+Saved user info to checkins/user.json
+Saved Micropub config to checkins/micropub.json
+```
+
+Now you can run the import script which will create JSON files for each of your Swarm checkins in the `checkins` folder.
 
 ```
 php import-checkins.php
@@ -50,7 +62,7 @@ php import-checkins.php
 
 This will start with the most recent checkin and page back through your account until it can't find any more checkins.
 
-Next, you'll want to download all the photos from the checkins as well. This will take considerably longer than the first one which is why it's a separate step.
+Next, you'll want to download all the photos from the checkins as well. This will take considerably longer than the first import.
 
 ```
 php import-photos.php
@@ -59,8 +71,31 @@ php import-photos.php
 
 ### Publish
 
+To publish your checkins to your website, make sure your website supports [Micropub](https://micropub.net), specifically the JSON format.
 
+You'll probably want to first import just one checkin to make sure things are working with your website being able to handle the checkin that the website sends.
 
+```
+php publish.php
+```
+
+Running the publish command with no options will publish only the latest checkin to your website, then it will exit. This will give you a chance to make sure everything looks good with the checkin you imported.
+
+The output will show you the URL of your published checkin.
+
+When you're ready to publish all your checkins, run with the `--all` option:
+
+```
+php publish --all
+```
+
+Sit back and get some coffee and watch as all your checkins are published!
+
+Note: When a checkin is successfully published, it will create a `.txt` file next to the source `.json` file to keep track of the published URL of the checkin, to avoid publishing checkins multiple times. If you want to reset the import script to publish all checkins again, you can remove all the `.txt` files:
+
+```
+rm checkins/*/*/*/*.txt
+```
 
 
 ## Storage Format
