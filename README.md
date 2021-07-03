@@ -71,7 +71,9 @@ php import-photos.php
 
 ### Publish
 
-To publish your checkins to your website, make sure your website supports [Micropub](https://micropub.net), specifically the JSON format.
+To publish your checkins to your website, make sure your website supports [Micropub](https://micropub.net), specifically the JSON format. For details of the Micropub request, see the [OwnYourSwarm documentation](https://ownyourswarm.p3k.io/docs).
+
+If your Micropub endpoint has a media endpoint, photos will be first uploaded to your media endpoint and that URL will be sent instead of the Foursquare photo URL.
 
 You'll probably want to first import just one checkin to make sure things are working with your website being able to handle the checkin that the website sends.
 
