@@ -165,7 +165,7 @@ class Foursquare {
     }
 
     # If someone else checked you in, add that as a new property
-    if(isset($checkin['createdBy']) && $checkin['createdBy']['id'] != $checkin['user']['id']) {
+    if(isset($checkin['createdBy']) && $checkin['createdBy']['id'] != $user['id']) {
       $entry['properties']['checked-in-by'] = [self::foursquareUserToHCard($checkin['createdBy'])];
     }
 

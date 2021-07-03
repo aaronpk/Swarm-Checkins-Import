@@ -14,14 +14,14 @@ $checkins = glob('checkins/*/*/*/*.json');
 
 foreach($checkins as $filename) {
 
-  echo $filename."\n";
-
   // Check if there is a .txt file that means this has already been imported
   $txt_filename = str_replace('.json', '.txt', $filename);
   if(file_exists($txt_filename)) {
-    echo "\tAlready published\n\n";
+    #echo "\tAlready published\n\n";
     continue;
   }
+
+  echo $filename."\n";
 
   $checkin = json_decode(file_get_contents($filename), true);
 
