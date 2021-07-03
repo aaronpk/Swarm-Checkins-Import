@@ -14,6 +14,9 @@ while($continue) {
   $params = [
     'v' => '20170319',
     'oauth_token' => $access_token,
+    # To limit your import to a certain range, you can add these parameters
+    #'beforeTimestamp' => strtotime('2017-03-07T12:00:00-0800'),
+    #'afterTimestamp' => strtotime('2016-09-01T20:00:00-0700'),
     'limit' => $limit,
     'offset' => $offset,
   ];
