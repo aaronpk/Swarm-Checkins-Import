@@ -1,1 +1,4 @@
 vendor/
+checkins/
+.DS_Store
+credentials.yml
