@@ -64,6 +64,7 @@ foreach($checkins as $filename) {
 
   } else {
     echo "No Location was returned from the Micropub endpoint. This checkin was not published.\n";
+    print_r($response);
   }
 
   if(!$all) {
@@ -96,6 +97,7 @@ function micropub_post($params, $endpoint, $token) {
   $headers = [
     'User-Agent: https://github.com/aaronpk/Swarm-Checkins-Import',
     'Authorization: Bearer '.$token,
+    'Content-Type: application/json',
   ];
   $body = json_encode($params, JSON_UNESCAPED_SLASHES);
   $response = $http->post($endpoint, $body, $headers);
