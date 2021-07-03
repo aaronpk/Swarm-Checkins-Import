@@ -1,4 +1,4 @@
 vendor/
 checkins/
 .DS_Store
-credentials.yml
+credentials.json
