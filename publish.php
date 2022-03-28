@@ -30,7 +30,7 @@ foreach($checkins as $filename) {
   $photos = [];
 
   // If they have a Media endpoint, upload photos there and replace the photo URLs with their own
-  if(isset($mpconfig['media-endpoint'])) {
+  if($mpconfig && isset($mpconfig['media-endpoint'])) {
     if(isset($entry['properties']['photo'])) {
 
       foreach($checkin['photos']['items'] as $photo) {

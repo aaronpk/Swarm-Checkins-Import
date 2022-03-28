@@ -35,7 +35,7 @@ $response = $http->get($credentials['micropub_endpoint'].'?q=config', $headers);
 $mpconfig = json_decode($response['body'], true);
 
 if(!$mpconfig) {
-  echo "Error fetching Micropub config info\n";
+  echo "No Micropub config found\n";
 } else {
   file_put_contents('checkins/micropub.json', json_encode($mpconfig, JSON_PRETTY_PRINT+JSON_UNESCAPED_SLASHES));
   echo "Saved Micropub config to checkins/micropub.json\n";
