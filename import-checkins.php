@@ -63,9 +63,10 @@ function process_checkin($item) {
   #print_r($item);
 
   $date = DateTime::createFromFormat('U', $item['createdAt']);
-  $offset = $item['timeZoneOffset'] / 60;
-  if($offset >= 0)
-    $offset = '+'.$offset;
+
+  # Convert timeZoneOffset (minutes) to format accepted by DateTimeZone (e.g. "+HHMM" or "-HHMM")
+  $offset = sprintf('%+02d%02d', $item['timeZoneOffset'] / 60, abs($item['timeZoneOffset'] % 60));
+
   $date->setTimeZone(new DateTimeZone($offset));
 
   echo $date->format('c')."\n";
