@@ -49,6 +49,7 @@ while($continue) {
 
   } else {
     echo "Error fetching checkins\n";
+    print_r($info);
     $continue = false;
   }
 
